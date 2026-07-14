@@ -8,6 +8,10 @@ if not private_key_content:
     print("❌ Erreur: Le secret OCI_PRIVATE_KEY est introuvable sur GitHub.")
     sys.exit(1)
 
+# GitHub Secrets peut parfois altérer les retours à la ligne du PEM
+# On s'assure que le format est correct
+private_key_content = private_key_content.replace("\\n", "\n").strip()
+
 with open("key.pem", "w") as f:
     f.write(private_key_content)
 
@@ -21,8 +25,17 @@ config = {
 }
 
 print("Vérification de la configuration OCI...")
+for key, value in config.items():
+    if key == "key_file":
+        continue
+    if not value:
+        print(f"❌ Erreur: Le secret {key.upper()} est vide ou introuvable.")
+        sys.exit(1)
+    print(f"  ✅ {key} = {value[:20]}...")
+
 try:
-    oci.config.validateconfig(config)
+    oci.config.validate_config(config)
+    print("  ✅ Configuration validée avec succès !")
 except oci.exceptions.InvalidConfig as e:
     print(f"❌ Erreur de configuration: {e}")
     sys.exit(1)
@@ -52,17 +65,26 @@ instance_details = oci.core.models.LaunchInstanceDetails(
     }
 )
 
-print("Tentative de création du serveur Ampere 24Go...")
+print("\n🔄 Tentative de création du serveur Ampere 24Go...")
 try:
     response = compute_client.launch_instance(instance_details)
     print("=====================================================")
     print("🚀 SUCCÈS ! LE SERVEUR A ÉTÉ CRÉÉ AVEC SUCCÈS !")
-    print("Allez vite sur le site d'Oracle pour voir votre serveur.")
+    print(f"   ID: {response.data.id}")
+    print(f"   État: {response.data.lifecycle_state}")
+    print("   Allez vite sur le site d'Oracle pour voir votre serveur.")
     print("=====================================================")
+    sys.exit(0)  # Succès ! Le workflow ne se relancera plus en boucle
 except oci.exceptions.ServiceError as e:
     if e.status == 500 and "Out of host capacity" in e.message:
-        print("❌ Plus de place chez Oracle (Out of capacity). Le robot réessaiera à la prochaine tentative.")
+        print("❌ Plus de place chez Oracle (Out of capacity). Le robot réessaiera dans 5 minutes.")
         sys.exit(1)
+    elif e.status == 400 and "LimitExceeded" in str(e.code):
+        print("⚠️ Limite atteinte : le serveur existe peut-être déjà ! Vérifiez sur Oracle Cloud.")
+        sys.exit(0)
     else:
-        print(f"❌ Erreur inattendue de l'API Oracle: {e}")
+        print(f"❌ Erreur inattendue de l'API Oracle (code {e.status}): {e.message}")
         sys.exit(1)
+except Exception as e:
+    print(f"❌ Erreur Python inattendue: {type(e).__name__}: {e}")
+    sys.exit(1)
