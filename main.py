@@ -88,7 +88,7 @@ def find_or_create_network():
         print(f"  ✅ VCN créé: {vcn.display_name}")
 
     # Chercher ou créer un Internet Gateway
-    igs = network_client.list_internet_gateways(COMPARTMENT_ID, vcn.id).data
+    igs = network_client.list_internet_gateways(COMPARTMENT_ID, vcn_id=vcn.id).data
     ig = None
     for g in igs:
         if g.lifecycle_state == "AVAILABLE":
