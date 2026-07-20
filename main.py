@@ -28,7 +28,7 @@ print("🔑 Clé privée PEM chargée avec succès.")
 COMPARTMENT_ID = "ocid1.tenancy.oc1..aaaaaaaaz4gwhdlkcumvw4lw27vgpwnopicftpferdwf4kyf3nhfjom5efuq"
 AD_NAME = "Ilbo:EU-PARIS-1-AD-1"
 IMAGE_ID = "ocid1.image.oc1.eu-paris-1.aaaaaaaabm4lqa5ok6ciib4ps4sqcujdrxiwpkhdjqdjnbueh3tpupt7tewa"
-SSH_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNcdxUMIZUc+vfDIHAfwoJZax6dEZ2mt9BM4mXQ6cP3vD3+F3fkPSrYlX7gPoi+i36ag9COznnWsZR0j+8uz5nLwlhEWZ+sk69WvZam4jgPTFhlD0odJET8UViqfIOuAeQgN1B4/JCRjFAff54nJjwcxz5tOA6P3G0Iw5Ne0nynxhqEG94/0oGk4x9Zo1YwpUGWWcEQtEAseBgIeGC55ur92MWUo3EAonvQf9SK3IvIpnKmFqV2whJMV0iage/Hwu9X7I+z/L4dPTcbMwjeNod6aWyTmxq3qnHSGXRlVNies3ZhotNyWw5OLunPrKbIkf3rSh+9pt6DKQTZEVm6zTV ssh-key-2026-07-14"
+SSH_KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFHv6QUWiZOK4EDrjvzJq+sjFrvfPIByC490ejs8HHB lilia@Ordinateur-Lilian"
 
 config = {
     "user": os.environ.get("OCI_USER", "").strip(),
