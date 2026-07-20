@@ -28,7 +28,7 @@ print("🔑 Clé privée PEM chargée avec succès.")
 COMPARTMENT_ID = "ocid1.tenancy.oc1..aaaaaaaaz4gwhdlkcumvw4lw27vgpwnopicftpferdwf4kyf3nhfjom5efuq"
 AD_NAME = "Ilbo:EU-PARIS-1-AD-1"
 IMAGE_ID = "ocid1.image.oc1.eu-paris-1.aaaaaaaabm4lqa5ok6ciib4ps4sqcujdrxiwpkhdjqdjnbueh3tpupt7tewa"
-SSH_KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFHv6QUWiZOK4EDrjvzJq+sjFrvfPIByC490ejs8HHB lilia@Ordinateur-Lilian"
+SSH_KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEXPxFYYnp0y1DRBRgqSaPpwV5qVOyDBh6+v+rrzCqDb lilia@Ordinateur-Lilian"
 
 config = {
     "user": os.environ.get("OCI_USER", "").strip(),
